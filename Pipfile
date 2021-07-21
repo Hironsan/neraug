@@ -9,6 +9,7 @@ isort = "*"
 flake8 = "*"
 mypy = "*"
 darglint = "*"
+pytest = "*"
 
 [packages]
 seqeval = "*"
@@ -21,3 +22,4 @@ isort = "isort . -c"
 flake8 = "flake8 neraug"
 darglint = "darglint"
 black = "black --check ."
+test = "pytest tests -vv"
