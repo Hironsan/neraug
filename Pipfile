@@ -15,3 +15,9 @@ seqeval = "*"
 
 [requires]
 python_version = "3.8"
+
+[scripts]
+isort = "isort . -c"
+flake8 = "flake8 neraug"
+darglint = "darglint"
+black = "black --check ."
