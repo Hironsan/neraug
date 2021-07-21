@@ -1,6 +1,6 @@
 import abc
 import random
-from collections import defaultdict
+from collections import Counter, defaultdict
 from itertools import chain
 from typing import Callable, Dict, List, Type
 
@@ -49,7 +49,28 @@ class DictionaryReplacement(BaseReplacement):
 
 
 class LabelWiseTokenReplacement(BaseReplacement):
-    pass
+    def __init__(self, x: List[List[str]], y: List[List[str]], p=0.8):
+        self.p = p
+        self.distribution = defaultdict(Counter)
+        for words, tags in zip(x, y):
+            for word, tag in zip(words, tags):
+                self.distribution[tag][word] += 1
+
+    def augment(self, x: List[str], y: List[str], n=1):
+        xs = []
+        ys = []
+        for i in range(n):
+            x_ = []
+            for word, tag in zip(x, y):
+                if random.random() <= self.p:
+                    counter = self.distribution[tag]
+                    words = list(counter.keys())
+                    weights = list(counter.values())
+                    word = random.choices(words, weights=weights, k=1)
+                x_.append(word)
+            xs.append(x_)
+            ys.append(y)
+        return xs, ys
 
 
 class SynonymReplacement(BaseReplacement):
