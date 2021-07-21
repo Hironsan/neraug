@@ -73,14 +73,6 @@ class LabelWiseTokenReplacement(BaseReplacement):
         return xs, ys
 
 
-class SynonymReplacement(BaseReplacement):
-    def __init__(self):
-        pass
-
-    def augment(self, x, y):
-        pass
-
-
 class MentionReplacement(BaseReplacement):
     def __init__(
         self,
