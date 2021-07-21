@@ -102,5 +102,32 @@ class MentionReplacement(BaseReplacement):
 
 
 class ShuffleWithinSegment(BaseReplacement):
-    def __init__(self, scheme: Type[Token]):
+    def __init__(self, scheme: Type[Token], p=0.8):
         self.scheme = scheme
+        self.p = p
+
+    def augment(self, x: List[str], y: List[str], n=1):
+        xs = []
+        ys = []
+        segments = self.make_segments(y)
+        for i in range(n):
+            x_ = []
+            for s, e in segments:
+                words = x[s:e]
+                if random.random() <= self.p:
+                    random.shuffle(words)
+                x_.extend(words)
+            xs.append(x_)
+            ys.append(y)
+        return xs, ys
+
+    def make_segments(self, y: List[str]):
+        segments = []
+        entities = Entities([y], self.scheme)
+        start = 0
+        for entity in chain(*entities.entities):
+            segments.append((start, entity.start))
+            segments.append((entity.start, entity.end))
+            start = entity.end
+        segments.append((start, len(y)))
+        return [(s, e) for s, e in segments if s != e]
