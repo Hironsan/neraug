@@ -66,7 +66,7 @@ class LabelWiseTokenReplacement(BaseReplacement):
                     counter = self.distribution[tag]
                     words = list(counter.keys())
                     weights = list(counter.values())
-                    word = random.choices(words, weights=weights, k=1)
+                    word = random.choices(words, weights=weights, k=1)[0]
                 x_.append(word)
             xs.append(x_)
             ys.append(y)
