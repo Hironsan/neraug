@@ -21,7 +21,7 @@ class DictionaryReplacement(BaseReplacement):
         tagger = create_tagger(scheme)
         for entity, label in ne_dic.items():
             words = tokenize(entity)
-            self.dic[label].append({"words": words, "tags": tagger.tag(words, label, scheme)})
+            self.dic[label].append({"words": words, "tags": tagger.tag(words, label)})
         self.scheme = scheme
 
     def augment(self, x: List[str], y: List[str], n=1):

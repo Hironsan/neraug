@@ -23,13 +23,13 @@ def create_tagger(scheme: Type[Token]):
 
 class BaseTagger(abc.ABC):
     @abc.abstractmethod
-    def tag(self, words: List[str], label: str, scheme: Type[Token]):
+    def tag(self, words: List[str], label: str):
         assert len(words) > 0
 
 
 class IOB2Tagger(BaseTagger):
-    def tag(self, words: List[str], label: str, scheme: Type[Token]):
-        super().tag(words, label, scheme)
+    def tag(self, words: List[str], label: str):
+        super().tag(words, label)
         return [f"B-{label}"] + [f"I-{label}"] * (len(words) - 1)
 
 
@@ -38,8 +38,8 @@ class StartInsideEndTagger(BaseTagger):
         self.single = single
         self.end = end
 
-    def tag(self, words: List[str], label: str, scheme: Type[Token]):
-        super().tag(words, label, scheme)
+    def tag(self, words: List[str], label: str):
+        super().tag(words, label)
         if len(words) == 1:
             return [f"{self.single}-{label}"]
         else:
