@@ -78,16 +78,17 @@ class MentionReplacement(BaseReplacement):
         self,
         x: List[List[str]],
         y: List[List[str]],
-        tokenize: Callable[[str], List[str]],
         scheme: Type[Token],
     ):
         entities = Entities(y, scheme)
-        ne_dic = {}
+        dic = defaultdict(list)
         for tag in entities.unique_tags:
             for entity in entities.filter(tag):
-                word = "".join(x[entity.sent_id][entity.start : entity.end])
-                ne_dic[word] = tag
-        self.replacement = DictionaryReplacement(ne_dic, tokenize, scheme)
+                words = x[entity.sent_id][entity.start : entity.end]
+                tags = y[entity.sent_id][entity.start : entity.end]
+                dic[tag].append({"words": words, "tags": tags})
+        self.replacement = DictionaryReplacement({}, str.split, scheme)
+        self.replacement.dic = dic
 
     def augment(self, x: List[str], y: List[str], n=1):
         return self.replacement.augment(x, y, n)

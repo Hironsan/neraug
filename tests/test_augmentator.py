@@ -25,7 +25,7 @@ def test_dictionary_replacement():
 def test_mention_replacement():
     x_train = [["I", "went", "to", "Osaka"]]
     y_train = [["O", "O", "O", "S-LOC"]]
-    augmentator = MentionReplacement(x_train, y_train, str.split, IOBES)
+    augmentator = MentionReplacement(x_train, y_train, IOBES)
     n = 3
     x = ["I", "went", "to", "Tokyo", "Big", "Sight"]
     y = ["O", "O", "O", "B-LOC", "I-LOC", "E-LOC"]
